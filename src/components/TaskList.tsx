@@ -5,35 +5,6 @@ import { cn } from "../utils/utils";
 import { ArrowDownAZ, ArrowDownZA, ArrowUpDown } from "lucide-react";
 import { useTaskStore } from "../store/useTaskStore";
 
-const tasksMockadas = [
-  {
-    id: "1",
-    title: "Fazer o dever de casa",
-    status: "todo",
-    createdAt: new Date(),
-  },
-  { id: "2", title: "Lavar o quintal", status: "todo", createdAt: new Date() },
-  {
-    id: "3",
-    title: "Passear com o cachorro",
-    status: "todo",
-    createdAt: new Date(),
-  },
-  {
-    id: "4",
-    title: "Ir para academia",
-    status: "doing",
-    createdAt: new Date(),
-  },
-  { id: "5", title: "Estudar por 2h", status: "done", createdAt: new Date() },
-  {
-    id: "6",
-    title: "Preparar marmitas da semana",
-    status: "done",
-    createdAt: new Date(),
-  },
-];
-
 export type Task = {
   id: string;
   title: string;
@@ -90,7 +61,7 @@ const TaskList = ({ status = "all" }: { status?: string }) => {
     } else if (statusColumn === "done") {
       setStatusColumn("all");
     }
-    
+
   };
 
   return (
