@@ -1,30 +1,23 @@
 import { Circle, CircleCheckBig, Edit, Save, Trash, X } from "lucide-react";
 import { cn } from "../utils/utils";
 import { useEffect, useRef, useState } from "react";
-import Modal from "./Modal";
+import { useTaskStore } from "../store/useTaskStore";
 
 const TaskItem = ({
   key,
   task,
 }: {
-  key: number; task: { id: number; title: string; completed: boolean; status: string };
+  key: string;
+  task: { id: string; title: string; status: string; createdAt: Date };
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
+  const deleteTask = useTaskStore((state) => state.deleteTask);
+  const updateTask = useTaskStore((state) => state.updateTask);
+  const markTask = useTaskStore((state) => state.markTask);
+  const addError = useTaskStore((state) => state.addError);
 
-  const [actualTask, setActualTask] = useState<{
-    id: number;
-    title: string;
-    completed: boolean;
-    status: string;
-  }>(task);
   const [openInputTitle, setOpenInputTitle] = useState(false);
-  const [openModalDelete, setOpenModalDelete] = useState(false);
-
-  const handleCheckTask = (status: string) =>
-    setActualTask((prev) => ({
-      ...prev,
-      status: status,
-    }));
+  const [title, setTitle] = useState(task.title);
 
   useEffect(() => {
     if (openInputTitle && inputRef.current) {
@@ -32,7 +25,22 @@ const TaskItem = ({
     }
   }, [openInputTitle]);
 
-  const handleDeleteTask = () => {};
+  const handleCheckTask = (status: string) => {
+    markTask(task.id, status);
+  };
+
+  const handleDeleteTask = () => {
+    deleteTask(task.id);
+  };
+
+  const handleSaveUpdateTask = () => {
+    addError("");
+    if (!title) {
+      addError("Please, enter a task title.");
+    }
+    updateTask(task.id, { title: title });
+    setOpenInputTitle(false);
+  };
 
   return (
     <div
@@ -41,7 +49,7 @@ const TaskItem = ({
         "flex border border-border p-4 w-full justify-between items-center rounded-md gap-4"
       )}
     >
-      {actualTask.status === "done" ? (
+      {task.status === "done" ? (
         <CircleCheckBig
           className={cn(
             "size-6 cursor-pointer hover:scale-115 text-contrast transition-all"
@@ -66,13 +74,11 @@ const TaskItem = ({
         type="text"
         name="taskTitle"
         id="taskTitle"
-        defaultValue={actualTask.title}
-        value={actualTask.title}
+        defaultValue={title}
+        value={title}
         onFocus={() => setOpenInputTitle(true)}
-        onChange={(e) =>
-          setActualTask((prev) => ({ ...prev, title: e.target.value }))
-        }
-        disabled={actualTask.status === "done" || !openInputTitle}
+        onChange={(e) => setTitle(e.target.value)}
+        disabled={task.status === "done" || !openInputTitle}
         className={cn(
           "w-full text-darkest bg-transparent outline-none border-b border-transparent",
           openInputTitle && "border-contrast"
@@ -89,7 +95,7 @@ const TaskItem = ({
           </Edit>
           <Trash
             className="size-6 cursor-pointer hover:scale-115 text-darkest transition-all"
-            onClick={() => setOpenModalDelete(true)}
+            onClick={handleDeleteTask}
           >
             <title>Delete task</title>
           </Trash>
@@ -98,7 +104,7 @@ const TaskItem = ({
         <>
           <Save
             className="size-6 cursor-pointer hover:scale-115 text-contrast transition-all"
-            onClick={() => setOpenInputTitle(false)}
+            onClick={handleSaveUpdateTask}
           >
             <title>Save edit</title>
           </Save>
@@ -106,24 +112,12 @@ const TaskItem = ({
             className="size-6 cursor-pointer hover:scale-115 text-darkest transition-all"
             onClick={() => {
               setOpenInputTitle(false);
-              setActualTask(task);
+              setTitle(task.title);
             }}
           >
             <title>Cancel edit</title>
           </X>
         </>
-      )}
-
-      {openModalDelete && (
-        <Modal
-          setOpenModal={setOpenModalDelete}
-          handleModal={handleDeleteTask}
-          infosModal={{
-            task: task,
-            msg: "Are you sure you want to delete this task?",
-            title: "Delete task",
-          }}
-        />
       )}
     </div>
   );

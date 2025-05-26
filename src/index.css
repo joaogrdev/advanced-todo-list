@@ -2,11 +2,12 @@
 @import "tailwindcss/utilities";
 
 :root {
+--bgAll: #fcfcfc;
+
   --lightest-color: #fcfcfc;
-  --darkest-color: #111827;
+  --darkest-color: #0f1115;
   --shadow-color: rgba(0, 0, 0, 0.1);
   --border-color: #e5e7eb;
-  --base-color: #f7a48b;
   --contrast-color: #47667b;
 
   font-synthesis: none;
@@ -48,6 +49,14 @@
 }
 
 .dark {
+  --bgAll: #0b0f17;
+
+  --lightest-color: #fcfcfc;
+  --darkest-color: #fcfcfc;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --border-color: #e5e7eb;
+  --contrast-color: #47667b;
+
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
@@ -85,6 +94,7 @@
   --color-lightest: var(--lightest-color);
   --color-darkest: var(--darkest-color);
   --color-contrast: var(--contrast-color);
+  --color-bgAll: var(--bgAll);
 
   --color-basic: var(--base-color);
   --color-shadow: var(--shadow-color);

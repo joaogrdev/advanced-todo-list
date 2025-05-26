@@ -1,28 +1,20 @@
 import "./App.css";
+import Footer from "./components/Footer";
 import Header from "./components/Header";
 import TaskForm from "./components/TaskForm";
+import { useTaskStore } from "./store/useTaskStore";
 
 function App() {
+  const erro = useTaskStore((state) => state.error);
+
   return (
-    <section className="w-screen h-screen flex flex-col items-center">
+    <section className="w-screen h-screen flex flex-col items-center bg-bgAll">
       <Header />
-      <div className="flex flex-1 w-full py-15 px-10 sm:px-20">
+      {erro && <p className="w-full text-center bg-border py-2 text-darkest">{erro}</p>}
+      <div className="flex flex-1 w-full pt-10 px-10 sm:px-20">
         <TaskForm />
       </div>
-      <footer className="flex justify-center py-2 px-10 text-xs w-full">
-        <p className="whitespace-nowrap">
-          Criado por{" "}
-          <a
-            href="https://www.linkedin.com/in/joaogrs/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline hover:text-contrast"
-          >
-            João Gabriel Ribeiro
-          </a>{" "}
-          | Desenvolvido em 2025
-        </p>
-      </footer>
+      <Footer />
     </section>
   );
 }
