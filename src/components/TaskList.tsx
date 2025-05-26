@@ -3,45 +3,71 @@ import TaskItem from "./TaskItem";
 import TaskInput from "./TaskInput";
 import { cn } from "../utils/utils";
 import { ArrowDownAZ, ArrowDownZA, ArrowUpDown } from "lucide-react";
+import { useTaskStore } from "../store/useTaskStore";
 
 const tasksMockadas = [
-  { id: 1, title: "Fazer o dever de casa", completed: false, status: "todo" },
-  { id: 2, title: "Lavar o quintal", completed: false, status: "todo" },
-  { id: 3, title: "Passear com o cachorro", completed: false, status: "todo" },
-  { id: 4, title: "Ir para academia", completed: false, status: "doing" },
-  { id: 5, title: "Estudar por 2h", completed: false, status: "done" },
   {
-    id: 6,
+    id: "1",
+    title: "Fazer o dever de casa",
+    status: "todo",
+    createdAt: new Date(),
+  },
+  { id: "2", title: "Lavar o quintal", status: "todo", createdAt: new Date() },
+  {
+    id: "3",
+    title: "Passear com o cachorro",
+    status: "todo",
+    createdAt: new Date(),
+  },
+  {
+    id: "4",
+    title: "Ir para academia",
+    status: "doing",
+    createdAt: new Date(),
+  },
+  { id: "5", title: "Estudar por 2h", status: "done", createdAt: new Date() },
+  {
+    id: "6",
     title: "Preparar marmitas da semana",
-    completed: false,
     status: "done",
+    createdAt: new Date(),
   },
 ];
 
 export type Task = {
-  id: number;
+  id: string;
   title: string;
-  completed: boolean;
   status: string;
+  createdAt: Date;
 };
 
 const TaskList = ({ status = "all" }: { status?: string }) => {
+  const tasksStore = useTaskStore((state) => state.tasks);
+
   const [tasks, setTasks] = useState<Task[]>([]);
   const [statusColumn, setStatusColumn] = useState(status);
   const [openAddTask, setOpenAddTask] = useState(false);
   const [alphaOrder, setAlphaOrder] = useState("asc");
 
   useEffect(() => {
-    let filteredTasks: Task[] = tasksMockadas;
+    let filteredTasks: Task[] = tasksStore;
 
     if (statusColumn !== "all") {
-      filteredTasks = tasksMockadas.filter(
-        (task) => task.status === statusColumn
-      );
+      filteredTasks = tasksStore.filter((task) => task.status === statusColumn);
     }
 
-    setTasks(filteredTasks);
-  }, [statusColumn]);
+    const tasksOrderedByStatus = filteredTasks.sort((a, b) => {
+      if (a.status === "todo" && b.status === "done") {
+        return -1;
+      } else if (a.status === "done" && b.status === "todo") {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+
+    setTasks(tasksOrderedByStatus);
+  }, [statusColumn, tasksStore]);
 
   const sortTasksAlphabetically = (tipo: string) => {
     if (tipo === "asc") {
@@ -53,7 +79,6 @@ const TaskList = ({ status = "all" }: { status?: string }) => {
         [...prev].sort((a, b) => b.title.localeCompare(a.title))
       );
     }
-    console.log(tasks);
     setAlphaOrder(tipo);
   };
 
@@ -65,6 +90,7 @@ const TaskList = ({ status = "all" }: { status?: string }) => {
     } else if (statusColumn === "done") {
       setStatusColumn("all");
     }
+    
   };
 
   return (
@@ -75,7 +101,7 @@ const TaskList = ({ status = "all" }: { status?: string }) => {
             className="block tablet:hidden size-6 text-contrast hover:scale-115 cursor-pointer"
             onClick={handleChangeStatusColumn}
           >
-            <title>Alterar coluna</title>
+            <title>Change column</title>
           </ArrowUpDown>
           {statusColumn.toUpperCase()}
         </h1>
@@ -85,14 +111,14 @@ const TaskList = ({ status = "all" }: { status?: string }) => {
               className="size-6 text-contrast hover:scale-115 cursor-pointer"
               onClick={() => sortTasksAlphabetically("desc")}
             >
-              <title>Ordenar de A-Z</title>
+              <title>Order from A-Z</title>
             </ArrowDownAZ>
           ) : (
             <ArrowDownZA
               className="size-6 text-contrast hover:scale-115 cursor-pointer"
               onClick={() => sortTasksAlphabetically("asc")}
             >
-              <title>Ordenar de Z-A</title>
+              <title>Order from Z-A</title>
             </ArrowDownZA>
           )}
         </div>
@@ -100,17 +126,18 @@ const TaskList = ({ status = "all" }: { status?: string }) => {
       <button
         className={cn(
           "bg-contrast text-lightest py-2 text-center rounded-md",
-          openAddTask ? "bg-darkest/80" : ""
+
         )}
         onClick={() => setOpenAddTask(!openAddTask)}
       >
         {openAddTask ? "Cancel" : "Add Task"}
       </button>
-      {openAddTask && <TaskInput />}
-      {tasks.map((task) => (
-        <TaskItem key={task.id} task={task} />
-      ))}
-      {/* {tasks.length === 0 ? <p className="text-center">No tasks found</p> : <p className="text-xs text-contrast mt-2">{tasks.length} tasks</p>} */}
+      {openAddTask && <TaskInput status={statusColumn} />}
+      <div className="max-h-[420px] overflow-auto flex flex-col gap-2">
+        {tasks.map((task) => (
+          <TaskItem key={task.id} task={task} />
+        ))}
+      </div>
     </section>
   );
 };
