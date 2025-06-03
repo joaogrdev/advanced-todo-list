@@ -1,54 +1,49 @@
-# React + TypeScript + Vite
+# 📝 Advanced ToDo List
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Um aplicativo de lista de tarefas (ToDo) desenvolvido com **React**, **Vite**, **TailwindCSS** e gerenciamento de estado com **Zustand**. Ideal para organizar suas atividades diárias com uma interface moderna e responsiva.
 
-Currently, two official plugins are available:
+## 🚀 Tecnologias utilizadas
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [React](https://reactjs.org/) — Biblioteca JavaScript para interfaces de usuário
+- [Vite](https://vitejs.dev/) — Build tool ultrarrápida
+- [TailwindCSS](https://tailwindcss.com/) — Framework CSS utilitário
+- [Zustand](https://github.com/pmndrs/zustand) — Gerenciamento de estado global leve e intuitivo
 
-## Expanding the ESLint configuration
+## 📸 Preview
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+<img src="https://github.com/user-attachments/assets/bd3b0583-feed-47f6-9d8f-5d9f78737fbe" alt="screenshot 1" style="width: 600px; ">
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## ✨ Funcionalidades
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- ✅ Adicionar novas tarefas
+- ✅ Editar tarefas
+- ✅ Marcar tarefas como concluídas
+- ✅ Remover tarefas
+- ✅ Interface moderna e responsiva
+- ✅ Estado global com Zustand
+- ✅ Persistência com `localStorage`
+- ✅ Dark Mode
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 📦 Instalação
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+1. Clone o repositório:
+git clone https://github.com/joaogrdev/advanced-todo-list.git
+   
+2. Instale as dependências:
+npm install
+ou
+yarn
+
+3. Execute o projeto localmente:
+npm run dev
+ou
+yarn dev
+
+4. Acesse o projeto em: http://localhost:5173
+
+## 📌 Possíveis melhorias
+- Adicionar data e hora para cada tarefa.
+- Tornar tarefas arrastáveis.
+
+## 🧑‍💻 Autor
+Feito por <a href='https://www.linkedin.com/in/joaogrs/' target='_blank'>João Gabriel Ribeiro</a>
