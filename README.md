@@ -6,6 +6,7 @@ Um aplicativo de lista de tarefas (ToDo) desenvolvido com **React**, **Vite**, *
 
 - [React](https://reactjs.org/) — Biblioteca JavaScript para interfaces de usuário
 - [Vite](https://vitejs.dev/) — Build tool ultrarrápida
+- [TypeScript](https://www.typescriptlang.org/) — Tipagem estática para segurança
 - [TailwindCSS](https://tailwindcss.com/) — Framework CSS utilitário
 - [Zustand](https://github.com/pmndrs/zustand) — Gerenciamento de estado global leve e intuitivo
 
