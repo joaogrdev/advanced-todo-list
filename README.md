@@ -2,6 +2,8 @@
 
 Um aplicativo de lista de tarefas (ToDo) desenvolvido com **React**, **Vite**, **TailwindCSS** e gerenciamento de estado com **Zustand**. Ideal para organizar suas atividades diárias com uma interface moderna e responsiva.
 
+<a href="https://joaogrdev.github.io/advanced-todo-list" target="_blank">Advanced ToDo List</a>
+
 ## 🚀 Tecnologias utilizadas
 
 - [React](https://reactjs.org/) — Biblioteca JavaScript para interfaces de usuário
